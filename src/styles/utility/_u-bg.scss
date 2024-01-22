@@ -1,8 +1,21 @@
 @use "../settings" as setting;
+@use "../tools" as tool;
+@use "sass:map";
 
 .u-bg-primary {
   color: var(--c-text-on-fill);
   background-color: var(--c-button-normal);
+}
+
+.u-bg-brand-alpha {
+  --bg: #{rgba(map.get(setting.$sys-light, primary), 0.8)};
+
+  @include tool.darkmode {
+    --bg: #{rgba(map.get(setting.$sys-dark, primary), 0.8)};
+  }
+
+  color: var(--c-text-on-fill);
+  background-color: var(--bg);
 }
 
 .u-bg-secondary {
@@ -18,4 +31,9 @@
 .u-bg-qua {
   color: var(--c-text-body);
   background: var(--c-bg-qua);
+}
+
+.u-bg-invert {
+  color: var(--c-bg-qua);
+  background-color: var(--c-text-body);
 }

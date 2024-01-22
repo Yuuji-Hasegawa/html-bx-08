@@ -63,15 +63,30 @@
   }
 }
 
+.c-logo-link,
 .c-gnav-link,
+.c-menu-link,
 .c-tel-link,
 .c-entry a,
-.c-text-link {
+.c-text-link,
+.c-ft-link {
   transition: all 0.25s ease;
 
   &:hover,
   &:focus {
     color: var(--c-text-hover);
+  }
+}
+
+.c-logo-link {
+  color: currentcolor;
+
+  &:hover,
+  &:focus {
+    svg {
+      opacity: 0.75;
+      transition: all 0.25s ease;
+    }
   }
 }
 
@@ -81,6 +96,15 @@
 
   &:visited {
     color: var(--c-text-visited);
+
+    .u-bg-primary &,
+    .u-bg-brand-alpha & {
+      color: color-mix(in oklab, var(--c-button-normal), var(--c-text-on-fill) 40%);
+    }
+
+    .u-bg-invert & {
+      color: color-mix(in oklab, var(--c-text-body), var(--c-text-on-fill) 40%);
+    }
   }
 }
 
@@ -94,12 +118,14 @@
   }
 }
 
-.c-text-link {
-  &--full-wide {
-    display: block;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
+.c-gnav-link,
+.c-menu-link,
+.c-text-link--full-wide,
+.c-lightbox-photo,
+.c-ft-link {
+  display: block;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .c-link-card {
@@ -157,4 +183,99 @@
   display: table;
   width: min(setting.breakpoints(overs), 100%);
   min-width: max-content;
+}
+
+.c-inner-box {
+  padding: clamp(0px, (setting.breakpoints(underm)), setting.f-space-px(m))
+    clamp(setting.f-space-px(m), (setting.breakpoints(overm)), setting.f-space-px(l));
+
+  &--max-content {
+    max-width: clamp(640px, setting.breakpoints(underm), 100%);
+    margin: auto;
+  }
+}
+
+.c-lightbox-photo {
+  cursor: zoom-in;
+
+  & .o-frame > * {
+    transition: all 0.25s ease-out;
+  }
+
+  &:hover,
+  &:focus {
+    & .o-frame > * {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+  }
+}
+
+.c-faq {
+  &__q,
+  &__a {
+    position: relative;
+    padding: 0 clamp(setting.f-font-remsize(m), (setting.breakpoints(overs)), setting.f-font-remsize(l));
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: setting.$font-family-en-condensed;
+      font-size: clamp(setting.f-font-remsize(m), (setting.breakpoints(overs)), setting.f-font-remsize(l));
+      font-weight: setting.f-fontweight(b);
+    }
+  }
+
+  &__q {
+    border-bottom: solid 1px currentcolor;
+
+    &::before {
+      color: var(--c-button-normal);
+      content: "Q";
+    }
+  }
+
+  &__a {
+    &::before {
+      color: var(--c-status-alert);
+      content: "A";
+    }
+  }
+}
+
+.js-pull-view {
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    content: "";
+    background: var(--c-bg-qua);
+    transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &.is-view {
+    opacity: 1;
+
+    &::after {
+      transform: translateX(100%);
+    }
+  }
+}
+
+.js-fade-up {
+  opacity: 0;
+  transition: all 0.7s ease-in-out;
+  transform: translateY(50px);
+
+  &.is-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

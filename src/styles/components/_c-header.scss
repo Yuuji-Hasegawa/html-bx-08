@@ -3,11 +3,20 @@
 @use "sass:map";
 
 .c-header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   display: flex;
   align-items: center;
-  padding-top: clamp(setting.f-space-px(s), (setting.breakpoints(overm)), setting.f-space-px(m));
+  padding-top: clamp(setting.f-space-px(s), (setting.breakpoints(overm)), setting.f-space-px(xl));
   padding-bottom: clamp(setting.f-space-px(s), (setting.breakpoints(overm)), setting.f-space-px(m));
+  box-shadow: 0 0 2px var(--c-button-normal);
+
+  &--spMenu {
+    box-sizing: border-box;
+    width: 100%;
+    box-shadow: none;
+  }
 }
 
 .c-logo-label {
@@ -25,18 +34,19 @@
 }
 
 .c-pc-nav {
-  margin-left: auto;
+  flex-grow: 1;
+}
 
-  @include tool.max-screen(setting.$underm) {
-    display: none;
-  }
+.c-gnav-link {
+  padding: setting.f-space-px(s) setting.f-space-px(m);
 }
 
 .c-menu-bars {
   position: relative;
   width: calc(100% - setting.f-space-px(m));
-  height: 1px;
-  background: var(--c-text-description);
+  height: setting.f-space-px(3xs);
+  background: currentcolor;
+  border-radius: setting.f-border-radius(s);
   transition: all ease-out 0.3s;
 
   &::before,
@@ -44,21 +54,22 @@
     position: absolute;
     left: 0;
     width: 100%;
-    height: 1px;
+    height: setting.f-space-px(3xs);
     content: "";
-    background-color: var(--c-text-description);
+    background-color: currentcolor;
+    border-radius: setting.f-border-radius(s);
     transition: all ease-out 0.3s;
   }
 
   &::before {
-    top: -9px;
+    top: -11px;
   }
 
   &::after {
-    top: 9px;
+    top: 11px;
   }
 
-  .is-open & {
+  [aria-expanded="true"] & {
     background: transparent;
 
     &::before {
@@ -73,45 +84,59 @@
   }
 }
 
-.c-gnav {
-  @include tool.max-screen(setting.$underm) {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 9999;
-    display: none;
-    width: 100%;
-    padding-right: clamp(
-      clamp(setting.f-space-px(m), setting.breakpoints(overm), setting.f-space-px(xl)),
-      setting.breakpoints(overs),
-      clamp(setting.f-space-px(xl), setting.breakpoints(overm), setting.f-space-px(3xl))
-    );
-    padding-bottom: setting.f-space-px(l);
-    padding-left: clamp(
-      clamp(setting.f-space-px(m), setting.breakpoints(overm), setting.f-space-px(xl)),
-      setting.breakpoints(overs),
-      clamp(setting.f-space-px(xl), setting.breakpoints(overm), setting.f-space-px(3xl))
-    );
-    background: var(--c-bg-qua);
+.c-sp-menu {
+  --bg: #{rgba(map.get(setting.$sys-light, primary), 0.9)};
 
-    &--is-open {
-      display: block;
-    }
-
-    &-item {
-      width: 100%;
-    }
+  @include tool.darkmode {
+    --bg: #{rgba(map.get(setting.$sys-dark, primary), 0.9)};
   }
 
-  @include tool.min-screen(setting.$breakm) {
-    margin-left: auto;
-  }
+  position: fixed;
+  top: 0;
+  right: -100%;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  color: var(--c-text-on-fill);
+  pointer-events: none;
+  visibility: hidden;
+  background-color: var(--bg);
+  opacity: 0;
+  transition: all 0.3s ease-out;
 
-  &-link {
-    color: currentcolor;
+  &[aria-hidden="false"] {
+    right: 0;
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.3s ease-out;
 
-    @include tool.max-screen(setting.$underm) {
-      display: block;
+    body:has(&) {
+      overflow: hidden;
     }
+  }
+}
+
+.c-sp-nav {
+  box-sizing: border-box;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.c-menu-item {
+  display: flex;
+  flex-grow: 1;
+}
+
+.c-menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover,
+  &:focus {
+    color: var(--c-text-on-fill);
+    background: var(--c-text-hover);
   }
 }
