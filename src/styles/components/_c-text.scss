@@ -63,21 +63,6 @@
   }
 }
 
-.c-logo-link,
-.c-gnav-link,
-.c-menu-link,
-.c-tel-link,
-.c-entry a,
-.c-text-link,
-.c-ft-link {
-  transition: all 0.25s ease;
-
-  &:hover,
-  &:focus {
-    color: var(--c-text-hover);
-  }
-}
-
 .c-logo-link {
   color: currentcolor;
 
@@ -94,6 +79,12 @@
 .c-text-link {
   color: var(--c-text-link);
 
+  .u-bg-primary &,
+  .u-bg-brand-alpha &,
+  .u-bg-invert & {
+    color: var(--c-text-on-fill);
+  }
+
   &:visited {
     color: var(--c-text-visited);
 
@@ -105,6 +96,21 @@
     .u-bg-invert & {
       color: color-mix(in oklab, var(--c-text-body), var(--c-text-on-fill) 40%);
     }
+  }
+}
+
+.c-logo-link,
+.c-gnav-link,
+.c-menu-link,
+.c-tel-link,
+.c-entry a,
+.c-text-link,
+.c-ft-link {
+  transition: all 0.25s ease;
+
+  &:hover,
+  &:focus {
+    color: var(--c-text-hover);
   }
 }
 
